@@ -17,4 +17,12 @@ class CurrencyController extends Controller
         
         return $currenciesCode;
     }
+
+    public function dashboard() {
+        $currencies = Currency::orderBy('id')->get()->toArray();
+        
+        return view('dashboard', [
+            'currencies' => $currencies,
+        ]);
+    }
 }
