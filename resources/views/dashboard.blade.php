@@ -40,8 +40,15 @@
                             });
 
                             selectedCurrencyInput.addEventListener('input', (event) => {
-                                if (!event.target.value.startsWith(currencySymbol)) {
-                                    event.target.value = currencySymbol + event.target.value;
+                                const inputValue = event.target.value;
+                                const symbolLength = currencySymbol.length;
+
+                                if (!inputValue.startsWith(currencySymbol)) {
+                                    if (inputValue.length === symbolLength + 1) {
+                                        event.target.value = currencySymbol;
+                                    } else {
+                                        event.target.value = currencySymbol + inputValue.slice(symbolLength);
+                                    }
                                 }
                             });
                         </script>
