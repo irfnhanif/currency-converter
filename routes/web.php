@@ -20,6 +20,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/daily-rate', [RateController::class, 'getDailyRate']);
+
 Route::get('/dashboard', [CurrencyController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
