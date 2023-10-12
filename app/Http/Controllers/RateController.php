@@ -50,6 +50,10 @@ class RateController extends Controller
         $idFromCurrency = (int) $request->input('from_currency');
         $idToCurrency =  (int) $request->input('to_currency');
 
+        $currencyController = new CurrencyController();
+        $fromCurrency = $currencyController->getCurrency($idFromCurrency);
+        $toCurrency = $currencyController->getCurrency($idToCurrency);
+
         $fromCurrencyRate  = Rate::where('currency_from_id', 1)->where('currency_to_id', $idFromCurrency)->first();
         $toCurrencyRate  = Rate::where('currency_from_id', 1)->where('currency_to_id', $idToCurrency)->first();
 
@@ -62,13 +66,13 @@ class RateController extends Controller
         $oneAmountToCurrency = (float) ((1 / $toCurrencyRate->rate) * $fromCurrencyRate->rate);
         $oneAmountToCurrency = $oneAmountToCurrency < 1 ? sprintf('%.8f', $oneAmountToCurrency) : (string) round($oneAmountToCurrency, 2);
 
-        var_dump($toCurrencyAmount);
-        var_dump($oneAmountFromCurrency);
-        var_dump($oneAmountToCurrency);
+        // var_dump($toCurrencyAmount);
+        // var_dump($oneAmountFromCurrency);
+        // var_dump($oneAmountToCurrency);
         return view('result', [
             'amount' => $amount,
-            'fromCurrencyRate' => $fromCurrencyRate,
-            'toCurrencyRate' => $toCurrencyRate,
+            'fromCurrency' => $fromCurrency,
+            'toCurrency' => $toCurrency,
             'toCurrencyAmount' => $toCurrencyAmount,
             'oneAmountFromCurrency' => $oneAmountFromCurrency,
             'oneAmountToCurrency' => $oneAmountToCurrency,
