@@ -7,6 +7,13 @@ use Illuminate\Http\Request;
 
 class CurrencyController extends Controller
 {
+
+    public function getCurrency($currencyId){
+        $currency = Currency::where('id', $currencyId)->first();
+        
+        return $currency;
+    }
+
     public function getCurrenciesCode() {
         $currencies = Currency::orderBy('id')->get();
         $currenciesCode = [];
