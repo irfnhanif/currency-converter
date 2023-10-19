@@ -9,7 +9,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    <h1 class="text-4xl pb-5">Convert Currency</h1>
+                    <h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white flex justify-center p-5">Convert Currency</h1>
                     @if ($errors->any())
                         <div class="alert alert-error">
                             <ul>
@@ -55,6 +55,35 @@
                             <input type="submit" class="btn btn-active btn-neutral" value="Convert"/>
                         </div>
                     </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="py-12">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div class="bg-white shadow-sm sm:rounded-lg">
+                    <div class="p-6 text-gray-900">
+                        <div class="overflow-x-auto">
+                        <table class="table">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Currency</th>
+                                <th>Rate</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for ($i = 0; $i < 20; $i++)
+                                <tr>
+                                    <th>{{ $i }}</th>
+                                    <td>{{ $currencies[$i]['currency_code'] }}</td>
+                                    <td>{{ $rates[$i]['rate'] }}</td>
+                                </tr>
+                            @endfor
+                        </tbody>
+                    </table>
+                    </div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -18,7 +18,7 @@
                     <p class="text-lg text-gray-600 flex justify-center pb-3">{{ $fromCurrency['symbol'] }}1 (<span class="uppercase">{{ $fromCurrency['currency_code'] }}</span>) = {{ $toCurrency['symbol'] }}{{ $oneAmountFromCurrency }} (<span class="uppercase">{{ $toCurrency['currency_code'] }}</span>)</p>
 
                     <div class="flex justify-center pt-3 pb-2">
-                        <button class="btn btn-neutral">Return</button>
+                        <a href="{{ route('dashboard') }}" class="btn btn-neutral">Return</a>
                     </div>
                 </div>
             </div>

@@ -11,9 +11,15 @@ use Illuminate\Support\Carbon;
 
 class RateController extends Controller
 {
+
+    public static function getTodayDate()
+    {
+        return Carbon::now()->toDateString();
+    }
+
     public function getDailyRate()
     {
-        $today = Carbon::now()->toDateString();
+        $today = RateController::getTodayDate();
 
         $rateExist = Rate::whereDate('updated_at', $today)->first();
         if ($rateExist) {
@@ -22,6 +28,8 @@ class RateController extends Controller
 
         $currencyController = new CurrencyController();
         $currenciesCode = $currencyController->getCurrenciesCode();
+
+        Rate::truncate();
 
         $rates = json_decode(Http::get('https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/usd.json'), true)['usd'];
 
@@ -40,6 +48,24 @@ class RateController extends Controller
         }
     }
 
+    public function getDefaultConvertedRates($idDefaultCurrency)
+    {
+        $today = RateController::getTodayDate();
+
+        $rates = Rate::whereDate('updated_at', $today)->orderBy('currency_to_id')->get();
+
+        $defaultCurrencyRate = Rate::whereDate('updated_at', $today)->where('currency_to_id', $idDefaultCurrency)->first();
+        $mainCurrencyDollarRate = (float) 1 / $defaultCurrencyRate->rate;
+
+        foreach ($rates as $rate) {
+            if ($rate->currency_to_id != $idDefaultCurrency && $rate->currency_to_id != 1) {
+                $rate->rate = $rate->rate * $mainCurrencyDollarRate;
+            }
+        }
+
+        return $rates;
+    }
+
     public function convert(Request $request)
     {
         $validated = $request->validate([
@@ -54,8 +80,10 @@ class RateController extends Controller
         $fromCurrency = $currencyController->getCurrency($idFromCurrency);
         $toCurrency = $currencyController->getCurrency($idToCurrency);
 
-        $fromCurrencyRate  = Rate::where('currency_from_id', 1)->where('currency_to_id', $idFromCurrency)->first();
-        $toCurrencyRate  = Rate::where('currency_from_id', 1)->where('currency_to_id', $idToCurrency)->first();
+        $today = RateController::getTodayDate();
+
+        $fromCurrencyRate  = Rate::whereDate('updated_at', $today)->where('currency_from_id', 1)->where('currency_to_id', $idFromCurrency)->first();
+        $toCurrencyRate  = Rate::whereDate('updated_at', $today)->where('currency_from_id', 1)->where('currency_to_id', $idToCurrency)->first();
 
         $toCurrencyAmount = (float) (($amount / $fromCurrencyRate->rate) * $toCurrencyRate->rate);
         $toCurrencyAmount = $toCurrencyAmount < 1 ? sprintf('%.8f', $toCurrencyAmount) : (string) round($toCurrencyAmount, 2);
@@ -66,9 +94,6 @@ class RateController extends Controller
         $oneAmountToCurrency = (float) ((1 / $toCurrencyRate->rate) * $fromCurrencyRate->rate);
         $oneAmountToCurrency = $oneAmountToCurrency < 1 ? sprintf('%.8f', $oneAmountToCurrency) : (string) round($oneAmountToCurrency, 2);
 
-        // var_dump($toCurrencyAmount);
-        // var_dump($oneAmountFromCurrency);
-        // var_dump($oneAmountToCurrency);
         return view('result', [
             'amount' => $amount,
             'fromCurrency' => $fromCurrency,
