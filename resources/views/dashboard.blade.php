@@ -64,25 +64,26 @@
                 <div class="bg-white shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
                         <div class="overflow-x-auto">
-                        <table class="table">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>Currency</th>
-                                <th>Rate</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @for ($i = 0; $i < 20; $i++)
-                                <tr>
-                                    <th>{{ $i }}</th>
-                                    <td>{{ $currencies[$i]['currency_code'] }}</td>
-                                    <td>{{ $rates[$i]['rate'] }}</td>
-                                </tr>
-                            @endfor
-                        </tbody>
-                    </table>
-                    </div>
+                            <h1 class="mb-4 text-2xl font-extrabold text-gray-900 md:text-5xl lg:text-6xl pt-2 pb-5 flex justify-center">Currency Rates for&nbsp;<span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">United States dollar</span></h1>
+                            <table class="table w-4/5 justify-center">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th class="text-xl">Currency</th>
+                                        <th class="text-xl">Rate</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for ($i = 0; $i < 19; $i++)
+                                        <tr class="hover">
+                                            <th class="text-base">{{ $i + 1 }}</th>
+                                            <td class="text-base">{{ $convertedMainCurrencies[$i]['name'] }} (<span class="uppercase">{{ $convertedMainCurrencies[$i]['currency_code'] }}</span>)</td>
+                                            <td class="text-base">{{ $convertedMainCurrencies[$i]['symbol'] }}{{ $rates[$i] }}</td>
+                                        </tr>
+                                    @endfor
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

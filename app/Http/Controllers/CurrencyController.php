@@ -28,13 +28,17 @@ class CurrencyController extends Controller
     }
 
     public function dashboard() {
-        $currencies = Currency::orderBy('id')->get()->toArray();
-
         $idDefaultCurrency = Auth::user()->default_currency;
+
+        $currencies = Currency::orderBy('id')->get()->toArray();
+        $convertedMainCurrencies =
+        Currency::whereNotIn('id', [$idDefaultCurrency])->orderBy('id')->get()->toArray();
+
         $rateController = new RateController();
         $rates = $rateController->getDefaultConvertedRates($idDefaultCurrency);
         
         return view('dashboard', [
+            'convertedMainCurrencies' => $convertedMainCurrencies,
             'currencies' => $currencies,
             'rates' => $rates,
         ]);

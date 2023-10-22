@@ -51,15 +51,19 @@ class RateController extends Controller
     public function getDefaultConvertedRates($idDefaultCurrency)
     {
         $today = RateController::getTodayDate();
-
-        $rates = Rate::whereDate('updated_at', $today)->orderBy('currency_to_id')->get();
+        $todayRates = Rate::whereNotIn('currency_to_id',[$idDefaultCurrency])->whereDate('updated_at', $today)->orderBy('currency_to_id')->get();
 
         $defaultCurrencyRate = Rate::whereDate('updated_at', $today)->where('currency_to_id', $idDefaultCurrency)->first();
         $mainCurrencyDollarRate = (float) 1 / $defaultCurrencyRate->rate;
 
-        foreach ($rates as $rate) {
-            if ($rate->currency_to_id != $idDefaultCurrency && $rate->currency_to_id != 1) {
-                $rate->rate = $rate->rate * $mainCurrencyDollarRate;
+        $rates = array();
+
+        foreach ($todayRates as $todayRate) {
+            $adjustedTodayRate = $todayRate->rate * $mainCurrencyDollarRate;
+            if ($adjustedTodayRate < 1) {
+                array_push($rates, sprintf('%.8f', $adjustedTodayRate));
+            } else {
+                array_push($rates, (string) round($adjustedTodayRate, 2));
             }
         }
 
