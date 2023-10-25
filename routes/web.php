@@ -20,9 +20,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/daily-rate', [RateController::class, 'getDailyRate']);
+Route::get('/daily-rate', [RateController::class, 'getDailyRate'])->middleware(['auth', 'verified']);
 
-Route::get('/dashboard', [CurrencyController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard/{currencyId?}', [CurrencyController::class, 'dashboard'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

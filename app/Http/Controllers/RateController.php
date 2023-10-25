@@ -44,7 +44,7 @@ class RateController extends Controller
                 ]);
             }
 
-            redirect('/');
+            redirect('/dashboard');
         }
     }
 

@@ -27,9 +27,20 @@ class CurrencyController extends Controller
         return $currenciesCode;
     }
 
-    public function dashboard() {
-        $idDefaultCurrency = Auth::user()->default_currency;
-
+    public function dashboard(Request $request, $currencyId = null) {
+        if (!$request->session()->get('has_visit')) {
+            $request->session()->put([
+                'has_visit' => true,
+                'default_currency' => 1,
+            ]);
+            $idDefaultCurrency = 1;
+        } else if ($currencyId) {
+            $request->session()->put('default_currency', (int) $currencyId);
+            $idDefaultCurrency = (int) $currencyId;
+        } else {
+            $idDefaultCurrency = $request->session()->get('default_currency');
+        }
+        
         $currencies = Currency::orderBy('id')->get()->toArray();
         $convertedMainCurrencies =
         Currency::whereNotIn('id', [$idDefaultCurrency])->orderBy('id')->get()->toArray();
@@ -38,6 +49,7 @@ class CurrencyController extends Controller
         $rates = $rateController->getDefaultConvertedRates($idDefaultCurrency);
         
         return view('dashboard', [
+            'idDefaultCurrency' => $idDefaultCurrency,
             'convertedMainCurrencies' => $convertedMainCurrencies,
             'currencies' => $currencies,
             'rates' => $rates,
