@@ -1,8 +1,19 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
+    <x-slot name="header" class="">
+        <div class="flex justify-end">
+            <h2 class="font-semibold text-2xl text-gray-800 leading-tight p-2">
+                Main Currency: 
+            </h2>
+            <details class="dropdown dropdown-end">
+                <summary class="btn">{{ $currencies[$idDefaultCurrency - 1]['currency_code'] }}</summary>
+                <ul class="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-64">
+                    @foreach ($currencies as $currency)
+                        <li><a href="{{ route('dashboard', ['currencyId' => $currency['id']]) }}">{{ $currency['name'] }} <span class="uppercase">({{ $currency['currency_code'] }})</span></a></li>
+                    @endforeach
+                </ul>
+            </details>
+        </div>
+        
     </x-slot>
 
     <div class="py-12">
@@ -64,7 +75,7 @@
                 <div class="bg-white shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
                         <div class="overflow-x-auto">
-                            <h1 class="mb-4 text-2xl font-extrabold text-gray-900 md:text-5xl lg:text-6xl pt-2 pb-5 flex justify-center">Currency Rates for&nbsp;<span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">United States dollar</span></h1>
+                            <h1 class="mb-4 text-2xl font-extrabold text-gray-900 md:text-5xl lg:text-6xl pt-2 pb-5 flex justify-center">Currency Rates for&nbsp;<span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">{{ $currencies[$idDefaultCurrency - 1]['name'] }}</span></h1>
                             <table class="table w-4/5 justify-center">
                                 <thead>
                                     <tr>
