@@ -76,24 +76,27 @@
                     <div class="p-6 text-gray-900">
                         <div class="overflow-x-auto">
                             <h1 class="mb-4 text-2xl font-extrabold text-gray-900 md:text-5xl lg:text-6xl pt-2 pb-5 flex justify-center">Currency Rates for&nbsp;<span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">{{ $currencies[$idDefaultCurrency - 1]['name'] }}</span></h1>
-                            <table class="table w-4/5 justify-center">
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th class="text-xl">Currency</th>
-                                        <th class="text-xl">Rate</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @for ($i = 0; $i < 19; $i++)
-                                        <tr class="hover">
-                                            <th class="text-base">{{ $i + 1 }}</th>
-                                            <td class="text-base">{{ $convertedMainCurrencies[$i]['name'] }} (<span class="uppercase">{{ $convertedMainCurrencies[$i]['currency_code'] }}</span>)</td>
-                                            <td class="text-base">{{ $convertedMainCurrencies[$i]['symbol'] }}{{ $rates[$i] }}</td>
+                            <p class="text-3xl font-semibold text-gray-700 py-5 flex justify-center">{{ $currencies[$idDefaultCurrency - 1]['symbol'] }}1 equals to...</p>
+                            <div class="flex justify-center">                                
+                                <table class="table w-4/5 justify-center pt-3">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th class="text-xl">Currency</th>
+                                            <th class="text-xl">Rate</th>
                                         </tr>
-                                    @endfor
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        @for ($i = 0; $i < 19; $i++)
+                                            <tr class="hover">
+                                                <th class="text-base">{{ $i + 1 }}</th>
+                                                <td class="text-base">{{ $convertedMainCurrencies[$i]['name'] }} (<span class="uppercase">{{ $convertedMainCurrencies[$i]['currency_code'] }}</span>)</td>
+                                                <td class="text-base">{{ $convertedMainCurrencies[$i]['symbol'] }}{{ $rates[$i] }}</td>
+                                            </tr>
+                                        @endfor
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
