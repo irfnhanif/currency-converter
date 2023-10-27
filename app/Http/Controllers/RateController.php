@@ -43,9 +43,9 @@ class RateController extends Controller
                     'rate' => $value,
                 ]);
             }
-
-            redirect('/dashboard');
         }
+
+        return redirect('/dashboard');
     }
 
     public function getDefaultConvertedRates($idDefaultCurrency)
@@ -63,7 +63,7 @@ class RateController extends Controller
             if ($adjustedTodayRate < 1) {
                 array_push($rates, sprintf('%.8f', $adjustedTodayRate));
             } else {
-                array_push($rates, (string) round($adjustedTodayRate, 2));
+                array_push($rates, (string) number_format($adjustedTodayRate, 2, '.', ','));
             }
         }
 
