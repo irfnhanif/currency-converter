@@ -77,6 +77,7 @@ class RateController extends Controller
         ]);
 
         $amount = (float) preg_replace('/^[^0-9]+/', '', $validated['amount']);
+
         $idFromCurrency = (int) $request->input('from_currency');
         $idToCurrency =  (int) $request->input('to_currency');
 
@@ -90,13 +91,15 @@ class RateController extends Controller
         $toCurrencyRate  = Rate::whereDate('updated_at', $today)->where('currency_from_id', 1)->where('currency_to_id', $idToCurrency)->first();
 
         $toCurrencyAmount = (float) (($amount / $fromCurrencyRate->rate) * $toCurrencyRate->rate);
-        $toCurrencyAmount = $toCurrencyAmount < 1 ? sprintf('%.8f', $toCurrencyAmount) : (string) round($toCurrencyAmount, 2);
+        $toCurrencyAmount = $toCurrencyAmount < 1 ? sprintf('%.8f', $toCurrencyAmount) : (string) number_format($toCurrencyAmount, 2, '.', ',');
 
         $oneAmountFromCurrency = (float) ((1 / $fromCurrencyRate->rate) * $toCurrencyRate->rate);
-        $oneAmountFromCurrency = $oneAmountFromCurrency < 1 ? sprintf('%.8f', $oneAmountFromCurrency) : (string) round($oneAmountFromCurrency, 2);
+        $oneAmountFromCurrency = $oneAmountFromCurrency < 1 ? sprintf('%.8f', $oneAmountFromCurrency) : (string) number_format($oneAmountFromCurrency, 2, '.', ',');
 
         $oneAmountToCurrency = (float) ((1 / $toCurrencyRate->rate) * $fromCurrencyRate->rate);
-        $oneAmountToCurrency = $oneAmountToCurrency < 1 ? sprintf('%.8f', $oneAmountToCurrency) : (string) round($oneAmountToCurrency, 2);
+        $oneAmountToCurrency = $oneAmountToCurrency < 1 ? sprintf('%.8f', $oneAmountToCurrency) : (string) number_format($oneAmountToCurrency, 2, '.', ',');
+
+        $amount = $amount < 1 ? sprintf('%.8f', $amount) : (string) number_format($amount, 2, '.', ',');
 
         return view('result', [
             'amount' => $amount,
