@@ -17,19 +17,20 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/currency/dashboard');
 });
 
 Route::get('/daily-rate', [RateController::class, 'getDailyRate'])->middleware(['auth', 'verified']);
 
-Route::get('/dashboard/{currencyId?}', [CurrencyController::class, 'dashboard'])->name('dashboard');
+Route::prefix('currency')->group(function () {
+    Route::get('/dashboard/{currencyId?}', [CurrencyController::class, 'dashboard'])->name('dashboard');
+    Route::post('/convert', [RateController::class, 'convert'])->name('convert');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-
-Route::post('/convert', [RateController::class, 'convert'])->name('convert');
 
 require __DIR__.'/auth.php';
