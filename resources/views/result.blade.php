@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
+    <div class="pt-12 pb-2">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
@@ -21,6 +21,18 @@
                         <a href="{{ route('dashboard') }}" class="btn btn-neutral">Return</a>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="py-1">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white shadow-sm sm:rounded-lg">
+                <footer class="footer footer-center p-4 text-base-content">
+                    <aside>
+                        <p class="text-base">Thank you for visiting my portfolio project. <br>~ <i>irfnhan</i> ~</p>
+                    </aside>
+                </footer>
             </div>
         </div>
     </div>
