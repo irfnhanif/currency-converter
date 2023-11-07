@@ -30,7 +30,9 @@
             <div class="bg-white shadow-sm sm:rounded-lg">
                 <footer class="footer footer-center p-4 text-base-content">
                     <aside>
-                        <p class="text-base">Thank you for visiting my portfolio project. <br>~ <i>irfnhan</i> ~</p>
+                        <p class="text-base">Thank you for visiting my portfolio project. <br>~ <i>irfnhanif</i> ~</p>
+
+                        <p class="pt-2 text-sm">You can check the project's code <span class="text-white bg-black p-0.5"><a href="https://github.com/irfnhanif/currency-converter">here</a></span></p>
                     </aside>
                 </footer>
             </div>
