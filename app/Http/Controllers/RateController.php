@@ -45,7 +45,7 @@ class RateController extends Controller
             }
         }
 
-        return redirect('/');
+        return redirect('currency/dashboard');
     }
 
     public function getDefaultConvertedRates($idDefaultCurrency)
